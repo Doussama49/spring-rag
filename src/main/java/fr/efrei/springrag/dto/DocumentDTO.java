@@ -5,45 +5,20 @@ import fr.efrei.springrag.domain.Document;
 
 public class DocumentDTO {
 
-    private Long id;
-    private String title;
+    private final String title;
 
-    // Constructeurs
-    public DocumentDTO() {
-    }
+    private final String content;
 
-    public DocumentDTO(Long id, String title) {
-        this.id = id;
+    public DocumentDTO(String title, String content) {
         this.title = title;
-    }
-
-    // Getters et Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        this.content = content;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    // Méthode pour convertir l'entité en DTO
-    public static DocumentDTO fromEntity(Document document) {
-        return new DocumentDTO(document.getId(), document.getTitle());
-    }
-
-    // Méthode pour convertir le DTO en entité
-    public Document toEntity() {
-        Document document = new Document();
-        document.setId(this.id);
-        document.setTitle(this.title);
-        return document;
+    public String getContent() {
+        return content;
     }
 }
