@@ -1,6 +1,6 @@
 package fr.efrei.springrag.web.rest;
 
-import fr.efrei.springrag.domain.Document;
+import fr.efrei.springrag.dto.DocumentDTO;
 import fr.efrei.springrag.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,31 +20,36 @@ public class DocumentResource {
         this.documentService = documentService;
     }
 
+    // Récupérer tous les documents
     @GetMapping
-    public List<Document> getAllDocuments() {
-        return documentService.getAllDocuments();
+    public List<DocumentDTO> getAllDocuments() {
+        return documentService.getAllDocuments(); // Service retourne des DTOs
     }
 
+    // Récupérer un document par son ID
     @GetMapping("/{id}")
-    public ResponseEntity<Document> getDocumentById(@PathVariable Long id) {
-        Optional<Document> document = documentService.getDocumentById(id);
+    public ResponseEntity<DocumentDTO> getDocumentById(@PathVariable Long id) {
+        Optional<DocumentDTO> document = documentService.getDocumentById(id); // Le service retourne un DTO
         return document.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    // Créer un nouveau document
     @PostMapping
-    public Document createDocument(@RequestBody Document document) {
-        return documentService.saveDocument(document);
+    public DocumentDTO createDocument(@RequestBody DocumentDTO documentDTO) {
+        return documentService.saveDocument(documentDTO); // Passer le DTO au service
     }
 
+    // Mettre à jour un document
     @PutMapping("/{id}")
-    public ResponseEntity<Document> updateDocument(@PathVariable Long id, @RequestBody Document document) {
+    public ResponseEntity<DocumentDTO> updateDocument(@PathVariable Long id, @RequestBody DocumentDTO documentDTO) {
         try {
-            return ResponseEntity.ok(documentService.updateDocument(id, document));
+            return ResponseEntity.ok(documentService.updateDocument(id, documentDTO)); // Passer le DTO au service
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
     }
 
+    // Supprimer un document
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDocument(@PathVariable Long id) {
         documentService.deleteDocument(id);
